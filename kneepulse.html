@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KneePulse 脉护 — AI智能髌骨带</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0F2235;
+  --blue: #1B6FC8;
+  --blue-light: #3B8FE8;
+  --cyan: #27C4B0;
+  --gold: #E8A830;
+  --off-white: #F4F1EC;
+  --warm-gray: #C8C3BA;
+  --text: #1A1A1A;
+  --text-muted: #6B6560;
+  --border: rgba(15,34,53,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--off-white);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.25rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(244,241,236,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-mark {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-logo-mark svg { width: 18px; height: 18px; stroke: var(--cyan); fill: none; stroke-width: 2; }
+.nav-brand { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--navy); }
+.nav-brand span { color: var(--blue); font-style: italic; }
+.nav-links { display: flex; gap: 2rem; }
+.nav-links a { font-size: 14px; color: var(--text-muted); text-decoration: none; font-weight: 400; transition: color 0.2s; }
+.nav-links a:hover { color: var(--navy); }
+.nav-cta {
+  background: var(--navy); color: #fff;
+  padding: 8px 20px; border-radius: 99px;
+  font-size: 13px; font-weight: 500; text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--blue); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 8rem 2.5rem 5rem;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(27,111,200,0.08) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 40% at 20% 80%, rgba(39,196,176,0.06) 0%, transparent 70%);
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0; opacity: 0.04;
+  background-image: linear-gradient(var(--navy) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--navy) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.hero-content { position: relative; z-index: 1; max-width: 780px; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(27,111,200,0.1); border: 1px solid rgba(27,111,200,0.2);
+  color: var(--blue); padding: 6px 14px; border-radius: 99px;
+  font-size: 13px; font-weight: 500; margin-bottom: 2rem;
+  animation: fadeUp 0.6s ease both;
+}
+.hero-eyebrow::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cyan); animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  line-height: 1.1; color: var(--navy);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero h1 em { font-style: italic; color: var(--blue); }
+.hero p {
+  font-size: 1.125rem; color: var(--text-muted);
+  line-height: 1.8; max-width: 540px;
+  margin-bottom: 2.5rem; font-weight: 300;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.hero-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+.btn-primary {
+  background: var(--navy); color: #fff;
+  padding: 14px 28px; border-radius: 99px;
+  font-size: 15px; font-weight: 500; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+.btn-primary:hover { background: var(--blue); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(27,111,200,0.3); }
+.btn-outline {
+  border: 1.5px solid var(--border); color: var(--navy);
+  padding: 14px 28px; border-radius: 99px;
+  font-size: 15px; font-weight: 500; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s; background: transparent; cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+.btn-outline:hover { border-color: var(--blue); color: var(--blue); background: rgba(27,111,200,0.05); }
+.hero-stats {
+  display: flex; gap: 2.5rem; margin-top: 4rem; flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.4s ease both;
+  padding-top: 2.5rem; border-top: 1px solid var(--border);
+}
+.hero-stat-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2rem; color: var(--navy); line-height: 1;
+}
+.hero-stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+/* HERO VISUAL */
+.hero-visual {
+  position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
+  width: 420px; z-index: 1;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+@media (max-width: 900px) { .hero-visual { display: none; } }
+.device-card {
+  background: #fff; border-radius: 24px;
+  padding: 1.5rem; box-shadow: 0 20px 60px rgba(15,34,53,0.15);
+  border: 1px solid rgba(15,34,53,0.08);
+}
+.device-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+.device-title { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+.score-badge {
+  background: #EAF6F4; color: #0F8A7A;
+  padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 500;
+}
+.score-ring-wrap { display: flex; justify-content: center; margin-bottom: 1.25rem; }
+.score-ring-inner { text-align: center; }
+.score-big { font-family: 'Instrument Serif', serif; font-size: 3rem; color: var(--navy); line-height: 1; }
+.score-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.metric-pills { display: flex; flex-direction: column; gap: 8px; }
+.metric-pill {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--off-white); border-radius: 10px; padding: 10px 12px;
+}
+.metric-pill-left { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); }
+.metric-pill-dot { width: 8px; height: 8px; border-radius: 50%; }
+.metric-pill-val { font-size: 13px; font-weight: 500; color: var(--navy); }
+.alert-pill {
+  background: rgba(232,168,48,0.1); border: 1px solid rgba(232,168,48,0.3);
+  border-radius: 10px; padding: 10px 12px; margin-top: 8px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: #8B5E0A; line-height: 1.5;
+}
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* SECTIONS */
+section { padding: 6rem 2.5rem; }
+.section-tag {
+  font-size: 11px; font-weight: 500; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--blue);
+  margin-bottom: 1rem; display: block;
+}
+.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--navy); line-height: 1.2; margin-bottom: 1rem;
+}
+.section-title em { font-style: italic; color: var(--blue); }
+.section-body { font-size: 1rem; color: var(--text-muted); line-height: 1.8; font-weight: 300; max-width: 560px; }
+
+/* PROBLEM */
+.problem-section { background: var(--navy); color: #fff; }
+.problem-section .section-tag { color: var(--cyan); }
+.problem-section .section-title { color: #fff; }
+.problem-section .section-body { color: rgba(255,255,255,0.6); }
+.problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+.problem-card {
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px; padding: 1.75rem;
+  position: relative; overflow: hidden;
+}
+.problem-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+}
+.problem-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 3rem; color: rgba(255,255,255,0.08);
+  line-height: 1; margin-bottom: 1rem;
+}
+.problem-card h3 { font-size: 16px; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+.problem-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+/* DEMO */
+.demo-section { background: #fff; }
+.demo-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+@media (max-width: 768px) { .demo-layout { grid-template-columns: 1fr; } }
+.demo-timeline { display: flex; flex-direction: column; gap: 0; }
+.demo-step {
+  display: flex; gap: 1rem; cursor: pointer; padding: 1.25rem 1rem;
+  border-radius: 12px; transition: background 0.2s; border-left: 2px solid transparent;
+}
+.demo-step:hover { background: var(--off-white); }
+.demo-step.active { background: rgba(27,111,200,0.06); border-left-color: var(--blue); }
+.demo-step-icon {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.demo-step-text h3 { font-size: 15px; font-weight: 500; color: var(--navy); margin-bottom: 3px; }
+.demo-step-text p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.demo-step.active .demo-step-text h3 { color: var(--blue); }
+
+.demo-display {
+  background: var(--off-white); border-radius: 20px; padding: 1.75rem;
+  border: 1px solid var(--border); min-height: 320px;
+  transition: all 0.3s ease;
+}
+.demo-score-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 1.25rem; }
+.demo-score-big { font-family: 'Instrument Serif', serif; font-size: 3.5rem; color: var(--navy); line-height: 1; }
+.demo-score-label { font-size: 12px; color: var(--text-muted); text-align: right; line-height: 1.5; }
+.progress-track { height: 6px; background: rgba(15,34,53,0.1); border-radius: 99px; overflow: hidden; margin-bottom: 1.25rem; }
+.progress-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease, background 0.5s ease; }
+.demo-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+.chip {
+  display: flex; align-items: center; gap: 5px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 99px; padding: 5px 10px; font-size: 12px; color: var(--text-muted);
+}
+.chip-dot { width: 6px; height: 6px; border-radius: 50%; }
+.demo-alert {
+  border-radius: 12px; padding: 12px 14px;
+  font-size: 13px; line-height: 1.6; display: flex; align-items: flex-start; gap: 8px;
+}
+.demo-alert.ok { background: rgba(39,196,176,0.1); color: #0B6B5E; border: 1px solid rgba(39,196,176,0.25); }
+.demo-alert.warn { background: rgba(232,168,48,0.1); color: #7A5000; border: 1px solid rgba(232,168,48,0.3); }
+.demo-alert-icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+
+/* SIMULATOR */
+.sim-section { background: var(--off-white); }
+.sim-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+@media (max-width: 768px) { .sim-layout { grid-template-columns: 1fr; } }
+.sim-controls { display: flex; flex-direction: column; gap: 1.75rem; }
+.sim-slider-group label { font-size: 14px; font-weight: 500; color: var(--navy); margin-bottom: 8px; display: flex; justify-content: space-between; }
+.sim-slider-group label span { color: var(--blue); font-weight: 500; }
+input[type=range] {
+  width: 100%; -webkit-appearance: none; appearance: none;
+  height: 4px; border-radius: 99px; background: rgba(15,34,53,0.15); outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--navy); cursor: pointer; border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(15,34,53,0.3);
+}
+input[type=range]::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--navy); cursor: pointer; border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(15,34,53,0.3);
+}
+.sim-result {
+  background: #fff; border-radius: 20px; padding: 2rem;
+  border: 1px solid var(--border); box-shadow: 0 4px 24px rgba(15,34,53,0.06);
+}
+.sim-risk-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+.sim-risk-val { font-family: 'Instrument Serif', serif; font-size: 2.5rem; color: var(--navy); margin-bottom: 1rem; line-height: 1; }
+.sim-bar-track { height: 8px; background: rgba(15,34,53,0.08); border-radius: 99px; overflow: hidden; margin-bottom: 1.25rem; }
+.sim-bar-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease, background 0.5s ease; }
+.sim-advice {
+  font-size: 14px; line-height: 1.7; color: var(--text-muted);
+  padding: 12px 14px; border-radius: 10px; transition: all 0.3s;
+}
+
+/* MOAT */
+.moat-section { background: #fff; }
+.moat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+.moat-card {
+  border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem;
+  transition: all 0.2s; position: relative; overflow: hidden;
+}
+.moat-card:hover { border-color: var(--blue); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(27,111,200,0.12); }
+.moat-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(27,111,200,0.08); display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1rem; font-size: 20px;
+}
+.moat-card h3 { font-size: 15px; font-weight: 500; color: var(--navy); margin-bottom: 6px; }
+.moat-card p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+/* MARKET */
+.market-section { background: var(--navy); color: #fff; }
+.market-section .section-tag { color: var(--cyan); }
+.market-section .section-title { color: #fff; }
+.market-bars { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 3rem; max-width: 640px; }
+.market-bar-row { display: flex; align-items: center; gap: 1.25rem; }
+.market-bar-label { font-size: 13px; color: rgba(255,255,255,0.6); width: 80px; flex-shrink: 0; }
+.market-bar-track { flex: 1; height: 36px; background: rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; position: relative; }
+.market-bar-fill { height: 100%; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; }
+.market-bar-fill span { font-size: 13px; font-weight: 500; color: #fff; white-space: nowrap; }
+.market-bar-amt { font-family: 'Instrument Serif', serif; font-size: 1.25rem; color: #fff; width: 100px; text-align: right; flex-shrink: 0; }
+
+/* TEAM */
+.team-section { background: var(--off-white); }
+.team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+.team-card {
+  background: #fff; border-radius: 14px; padding: 1.25rem;
+  border: 1px solid var(--border);
+}
+.team-icon { font-size: 1.5rem; margin-bottom: 8px; display: block; }
+.team-card h3 { font-size: 14px; font-weight: 500; color: var(--navy); margin-bottom: 4px; }
+.team-card p { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+/* CTA */
+.cta-section {
+  background: var(--navy); text-align: center; padding: 8rem 2.5rem;
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(27,111,200,0.3) 0%, transparent 70%);
+}
+.cta-section .section-title { color: #fff; position: relative; z-index: 1; }
+.cta-section .section-title em { color: var(--cyan); }
+.cta-section p { color: rgba(255,255,255,0.6); font-size: 1.1rem; font-weight: 300; line-height: 1.8; margin: 1rem auto 2.5rem; max-width: 480px; position: relative; z-index: 1; }
+.cta-section .hero-actions { justify-content: center; position: relative; z-index: 1; }
+.cta-section .btn-outline { border-color: rgba(255,255,255,0.25); color: #fff; }
+.cta-section .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(39,196,176,0.08); }
+
+/* FOOTER */
+footer {
+  background: #0A1C2E; padding: 2rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: gap;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-brand { font-family: 'Instrument Serif', serif; font-size: 18px; color: rgba(255,255,255,0.5); }
+.footer-brand strong { color: #fff; font-style: italic; }
+.footer-meta { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+/* UTIL */
+.container { max-width: 1100px; margin: 0 auto; }
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: none; }
+
+svg.ring { width: 140px; height: 140px; margin: 0 auto 1rem; display: block; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 21C12 21 4 15 4 9a8 8 0 0 1 16 0c0 6-8 12-8 12z"/><circle cx="12" cy="9" r="3"/></svg>
+    </div>
+    <div class="nav-brand">KneePulse <span>脉护</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#problem">问题</a>
+    <a href="#demo">产品演示</a>
+    <a href="#market">市场</a>
+    <a href="#team">团队</a>
+  </div>
+  <a href="#invest" class="nav-cta">投资人通道</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">AI智能髌骨带 · Pre-Seed 融资中</div>
+    <h1>每一步，<br>都<em>有数</em></h1>
+    <p>KneePulse 实时监测你的膝盖状态，在损伤发生之前预警并给出调整建议——让运动更安全，让每一步都有数据守护。</p>
+    <div class="hero-actions">
+      <a href="#demo" class="btn-primary">体验产品演示 →</a>
+      <a href="#invest" class="btn-outline">了解投资机会</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">5亿+</div>
+        <div class="hero-stat-label">全球关节炎患者</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">80%</div>
+        <div class="hero-stat-label">运动损伤可以预防</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">$11.9亿</div>
+        <div class="hero-stat-label">全球膝护具市场规模</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="device-card">
+      <div class="device-header">
+        <div class="device-title">今日膝盖状态</div>
+        <div class="score-badge">✓ 状态良好</div>
+      </div>
+      <svg class="ring" viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="54" fill="none" stroke="#F0EDE8" stroke-width="10"/>
+        <circle cx="70" cy="70" r="54" fill="none" stroke="#27C4B0" stroke-width="10"
+          stroke-dasharray="339" stroke-dashoffset="68" stroke-linecap="round"
+          transform="rotate(-90 70 70)"/>
+        <text x="70" y="64" text-anchor="middle" font-family="Instrument Serif,serif" font-size="32" fill="#0F2235">78</text>
+        <text x="70" y="84" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" fill="#9B9590">健康评分</text>
+      </svg>
+      <div class="metric-pills">
+        <div class="metric-pill">
+          <div class="metric-pill-left"><div class="metric-pill-dot" style="background:#27C4B0"></div>关节角度</div>
+          <div class="metric-pill-val" style="color:#27C4B0">正常</div>
+        </div>
+        <div class="metric-pill">
+          <div class="metric-pill-left"><div class="metric-pill-dot" style="background:#E8A830"></div>左膝温度</div>
+          <div class="metric-pill-val" style="color:#E8A830">偏低</div>
+        </div>
+        <div class="metric-pill">
+          <div class="metric-pill-left"><div class="metric-pill-dot" style="background:#27C4B0"></div>肌肉疲劳度</div>
+          <div class="metric-pill-val" style="color:#27C4B0">轻微</div>
+        </div>
+      </div>
+      <div class="alert-pill">⚡ 建议热身延长5分钟，注意左膝保暖</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <div class="container">
+    <span class="section-tag fade-in">问题所在</span>
+    <h2 class="section-title fade-in">身体早有信号，<br>但我们始终<em>听不懂</em></h2>
+    <p class="section-body fade-in">膝盖损伤从来不是突然发生的——但没有工具告诉我们何时危险正在积累。</p>
+    <div class="problem-grid">
+      <div class="problem-card fade-in">
+        <div class="problem-num">01</div>
+        <h3>损伤不可见</h3>
+        <p>磨损、炎症、疲劳都有前兆，但人体没有仪表盘——我们只能等到"痛了"才知道出了问题。</p>
+      </div>
+      <div class="problem-card fade-in">
+        <div class="problem-num">02</div>
+        <h3>AI革命在屏幕里</h3>
+        <p>智能手机可以帮你写代码，但跑完10公里后，没有任何设备能告诉你膝盖今天承受了多少风险。</p>
+      </div>
+      <div class="problem-card fade-in">
+        <div class="problem-num">03</div>
+        <h3>日常生活也是高危场景</h3>
+        <p>搬重物、久坐起身、错误姿势——生活中的"不经意"才是更高频的损伤来源，但人们毫无防范。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-section" id="demo">
+  <div class="container">
+    <span class="section-tag fade-in">产品体验</span>
+    <h2 class="section-title fade-in">一个运动人的<em>真实一天</em></h2>
+    <p class="section-body fade-in">点击不同场景，感受 KneePulse 如何全程守护你的膝盖。</p>
+    <div class="demo-layout">
+      <div class="demo-timeline">
+        <div class="demo-step active" onclick="selectScene(0,this)">
+          <div class="demo-step-icon" style="background:#EAF6F4">🌅</div>
+          <div class="demo-step-text">
+            <h3>运动前 — 状态评估</h3>
+            <p>App显示今日膝盖评分，提示疲劳积累，建议热身方案</p>
+          </div>
+        </div>
+        <div class="demo-step" onclick="selectScene(1,this)">
+          <div class="demo-step-icon" style="background:#FFF8EC">⚡</div>
+          <div class="demo-step-text">
+            <h3>运动中 — 实时预警</h3>
+            <p>AI分析关节角度与受力，异常时震动预警并给出即时建议</p>
+          </div>
+        </div>
+        <div class="demo-step" onclick="selectScene(2,this)">
+          <div class="demo-step-icon" style="background:#EAF0FB">📊</div>
+          <div class="demo-step-text">
+            <h3>运动后 — 健康报告</h3>
+            <p>生成今日膝盖负荷报告，预测明日运动适宜性</p>
+          </div>
+        </div>
+        <div class="demo-step" onclick="selectScene(3,this)">
+          <div class="demo-step-icon" style="background:#F3EFFE">🧠</div>
+          <div class="demo-step-text">
+            <h3>长期 — 个人基线学习</h3>
+            <p>AI持续学习你的膝盖数据，预警越来越精准</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-display" id="demo-display">
+        <div class="demo-score-header">
+          <div>
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">今日膝盖健康评分</div>
+            <div class="demo-score-big" id="d-score">78</div>
+          </div>
+          <div class="demo-score-label" id="d-status">状态良好<br><span style="font-size:11px;color:var(--text-muted)">建议正常训练</span></div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="d-bar" style="width:78%;background:#27C4B0"></div>
+        </div>
+        <div class="demo-chips" id="d-chips">
+          <div class="chip"><div class="chip-dot" style="background:#27C4B0"></div>关节角度正常</div>
+          <div class="chip"><div class="chip-dot" style="background:#E8A830"></div>左膝轻微疲劳</div>
+          <div class="chip"><div class="chip-dot" style="background:#27C4B0"></div>温度正常</div>
+        </div>
+        <div class="demo-alert ok" id="d-alert">
+          <span class="demo-alert-icon">✓</span>
+          建议热身多5分钟，重点拉伸左膝股四头肌，之后可正常训练。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULATOR -->
+<section class="sim-section">
+  <div class="container">
+    <span class="section-tag fade-in">互动模拟器</span>
+    <h2 class="section-title fade-in">模拟你的<em>膝盖风险</em></h2>
+    <p class="section-body fade-in">调整运动强度和连续运动天数，看看 KneePulse 会给出什么建议。</p>
+    <div class="sim-layout">
+      <div class="sim-controls fade-in">
+        <div class="sim-slider-group">
+          <label>运动强度 <span id="s-intensity-val">5 / 10</span></label>
+          <input type="range" min="1" max="10" value="5" step="1" id="s-intensity" oninput="updateSim()">
+        </div>
+        <div class="sim-slider-group">
+          <label>连续运动天数 <span id="s-days-val">3 天</span></label>
+          <input type="range" min="1" max="14" value="3" step="1" id="s-days" oninput="updateSim()">
+        </div>
+        <div class="sim-slider-group">
+          <label>关节寒冷程度（中医维度）<span id="s-cold-val">轻微</span></label>
+          <input type="range" min="0" max="4" value="1" step="1" id="s-cold" oninput="updateSim()">
+        </div>
+      </div>
+      <div class="sim-result fade-in">
+        <div class="sim-risk-label">KneePulse 综合风险评估</div>
+        <div class="sim-risk-val" id="s-risk-val">低风险</div>
+        <div class="sim-bar-track">
+          <div class="sim-bar-fill" id="s-bar" style="width:28%;background:#27C4B0"></div>
+        </div>
+        <div class="sim-advice" id="s-advice" style="background:rgba(39,196,176,0.08);color:#0B6B5E;border:1px solid rgba(39,196,176,0.2)">
+          当前状态良好，可以按计划正常训练。建议运动后做10分钟拉伸，并保持膝盖温暖。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOAT -->
+<section class="moat-section">
+  <div class="container">
+    <span class="section-tag fade-in">差异化</span>
+    <h2 class="section-title fade-in">竞品做<em>不到</em>的四件事</h2>
+    <p class="section-body fade-in">现有市场里没有任何产品同时覆盖这四个维度——这就是 KneePulse 的护城河。</p>
+    <div class="moat-grid">
+      <div class="moat-card fade-in">
+        <div class="moat-icon">⚡</div>
+        <h3>运动中实时预警</h3>
+        <p>不是事后报告，而是在损伤发生前的那一秒震动告警，并给出即时调整建议。</p>
+      </div>
+      <div class="moat-card fade-in">
+        <div class="moat-icon">🎯</div>
+        <h3>AI个人化教练</h3>
+        <p>持续学习你的膝盖数据，建立个人基线，越用越懂你，预警越来越精准。</p>
+      </div>
+      <div class="moat-card fade-in">
+        <div class="moat-icon">🌿</div>
+        <h3>中西医融合视角</h3>
+        <p>温度+血流监测结合中医寒热辨证，提供中医调理建议——全球竞品无此能力。</p>
+      </div>
+      <div class="moat-card fade-in">
+        <div class="moat-icon">🌏</div>
+        <h3>亚洲市场本土基因</h3>
+        <p>内地+香港双市场身份，先发亚洲，再覆盖欧美——欧美品牌无法复制的本土优势。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section class="market-section" id="market">
+  <div class="container">
+    <span class="section-tag fade-in">市场规模</span>
+    <h2 class="section-title fade-in">一个正在<em>爆发</em>的大赛道</h2>
+    <div class="market-bars fade-in">
+      <div class="market-bar-row">
+        <div class="market-bar-label" style="color:rgba(255,255,255,0.5)">TAM</div>
+        <div class="market-bar-track">
+          <div class="market-bar-fill" style="width:100%;background:rgba(27,111,200,0.5)">
+            <span>全球可穿戴医疗设备</span>
+          </div>
+        </div>
+        <div class="market-bar-amt">$427亿</div>
+      </div>
+      <div class="market-bar-row">
+        <div class="market-bar-label" style="color:rgba(255,255,255,0.5)">SAM</div>
+        <div class="market-bar-track">
+          <div class="market-bar-fill" style="width:65%;background:rgba(27,111,200,0.7)">
+            <span>骨科护具与支撑市场</span>
+          </div>
+        </div>
+        <div class="market-bar-amt">$46.7亿</div>
+      </div>
+      <div class="market-bar-row">
+        <div class="market-bar-label" style="color:rgba(255,255,255,0.5)">SOM</div>
+        <div class="market-bar-track">
+          <div class="market-bar-fill" style="width:35%;background:var(--cyan)">
+            <span>智能膝盖护具（切入点）</span>
+          </div>
+        </div>
+        <div class="market-bar-amt">$11.9亿</div>
+      </div>
+    </div>
+    <p style="color:rgba(255,255,255,0.4);font-size:12px;margin-top:2rem" class="fade-in">
+      数据来源：Grand View Research, MarketsandMarkets, 24MarketReports (2024)
+    </p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section" id="team">
+  <div class="container">
+    <span class="section-tag fade-in">团队</span>
+    <h2 class="section-title fade-in">稀缺的<em>三角能力</em>组合</h2>
+    <p class="section-body fade-in">创始人拥有硬件销售、AI产品和医疗行业的跨界背景，加上内地+香港双市场身份——这个组合在这个赛道里极为罕见。</p>
+    <div class="team-grid">
+      <div class="team-card fade-in">
+        <span class="team-icon">🔧</span>
+        <h3>硬件销售经验</h3>
+        <p>深度理解供应链、客户采购决策链、to B/C渠道差异</p>
+      </div>
+      <div class="team-card fade-in">
+        <span class="team-icon">🤖</span>
+        <h3>AI Agent销售经验</h3>
+        <p>懂AI产品商业化路径，能与技术团队高效对话</p>
+      </div>
+      <div class="team-card fade-in">
+        <span class="team-icon">🏥</span>
+        <h3>医疗家庭背景</h3>
+        <p>父母为西医医生与护士，具备临床资源与医疗行业人脉</p>
+      </div>
+      <div class="team-card fade-in">
+        <span class="team-icon">🌏</span>
+        <h3>双市场身份</h3>
+        <p>内地教育背景+香港身份证+2年港工作经验，天然跨境优势</p>
+      </div>
+      <div class="team-card fade-in">
+        <span class="team-icon">🌿</span>
+        <h3>中医热爱者</h3>
+        <p>差异化的核心来源，构建竞品无法复制的文化护城河</p>
+      </div>
+      <div class="team-card fade-in" style="border-style:dashed;background:transparent">
+        <span class="team-icon">🔍</span>
+        <h3>招募中：CTO</h3>
+        <p>寻找硬件传感器+嵌入式系统背景的技术合伙人</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="invest">
+  <div class="container">
+    <h2 class="section-title fade-in">一起重新定义<br><em>运动健康</em>的未来</h2>
+    <p class="fade-in">KneePulse 正处于 Pre-Seed 阶段，目标融资 150 万元人民币。<br>我们正在寻找相信「预防比治疗更有价值」的早期投资人。</p>
+    <div class="hero-actions fade-in">
+      <a href="mailto:invest@kneepulse.ai" class="btn-primary">联系创始人 →</a>
+      <a href="#demo" class="btn-outline">再看一遍演示</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand"><strong>KneePulse</strong> 脉护</div>
+  <div class="footer-meta">Feel Every Move, Guard Every Step. · Pre-Seed 2025</div>
+</footer>
+
+<script>
+const scenes = [
+  { score:'78', barW:'78%', barColor:'#27C4B0', status:'状态良好<br><span style="font-size:11px;color:var(--text-muted)">建议正常训练</span>',
+    chips:[{c:'#27C4B0',t:'关节角度正常'},{c:'#E8A830',t:'左膝轻微疲劳'},{c:'#27C4B0',t:'温度正常'}],
+    alertCls:'ok', alertIcon:'✓', alertMsg:'建议热身多5分钟，重点拉伸左膝股四头肌，之后可正常训练。' },
+  { score:'⚡ 预警', barW:'65%', barColor:'#E8A830', status:'检测到异常<br><span style="font-size:11px;color:var(--text-muted)">建议调整动作</span>',
+    chips:[{c:'#D9534F',t:'落地角度异常'},{c:'#E8A830',t:'剪切力超标'},{c:'#27C4B0',t:'肌肉活跃正常'}],
+    alertCls:'warn', alertIcon:'⚠', alertMsg:'右膝落地角度偏大，剪切力超出安全阈值。建议减少跳跃动作，改为低冲击训练。' },
+  { score:'82', barW:'82%', barColor:'#1B6FC8', status:'今日完成<br><span style="font-size:11px;color:var(--text-muted)">明日可正常训练</span>',
+    chips:[{c:'#27C4B0',t:'负荷积累正常'},{c:'#27C4B0',t:'训练时长合理'},{c:'#27C4B0',t:'本周趋势良好'}],
+    alertCls:'ok', alertIcon:'📊', alertMsg:'今日膝盖累计负荷在安全范围内。明日适合正常训练，建议补充水分并保持膝盖温暖。' },
+  { score:'↑ 学习', barW:'90%', barColor:'#7B68D9', status:'基线已建立<br><span style="font-size:11px;color:var(--text-muted)">预警精准度持续提升</span>',
+    chips:[{c:'#7B68D9',t:'已积累30天数据'},{c:'#27C4B0',t:'个人基线已建立'},{c:'#27C4B0',t:'预警准确率92%'}],
+    alertCls:'ok', alertIcon:'🧠', alertMsg:'AI已充分了解你的膝盖特征。根据历史数据，每周三是你的疲劳高峰——建议当天降低20%训练强度。' }
+];
+
+function selectScene(i, el) {
+  document.querySelectorAll('.demo-step').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  const s = scenes[i];
+  document.getElementById('d-score').textContent = s.score;
+  document.getElementById('d-status').innerHTML = s.status;
+  const bar = document.getElementById('d-bar');
+  bar.style.width = s.barW; bar.style.background = s.barColor;
+  document.getElementById('d-chips').innerHTML = s.chips.map(c=>`<div class="chip"><div class="chip-dot" style="background:${c.c}"></div>${c.t}</div>`).join('');
+  const a = document.getElementById('d-alert');
+  a.className = 'demo-alert ' + s.alertCls;
+  a.innerHTML = `<span class="demo-alert-icon">${s.alertIcon}</span>${s.alertMsg}`;
+}
+
+const coldLabels = ['无','轻微','中等','明显','严重'];
+function updateSim() {
+  const intensity = parseInt(document.getElementById('s-intensity').value);
+  const days = parseInt(document.getElementById('s-days').value);
+  const cold = parseInt(document.getElementById('s-cold').value);
+  document.getElementById('s-intensity-val').textContent = intensity + ' / 10';
+  document.getElementById('s-days-val').textContent = days + ' 天';
+  document.getElementById('s-cold-val').textContent = coldLabels[cold];
+  const risk = Math.min(100, Math.round(intensity * 5.5 + days * 3 + cold * 5));
+  const bar = document.getElementById('s-bar');
+  bar.style.width = risk + '%';
+  let level, color, advBg, advColor, advBorder, msg;
+  if (risk < 30) {
+    level='低风险'; color='#27C4B0';
+    advBg='rgba(39,196,176,0.08)'; advColor='#0B6B5E'; advBorder='rgba(39,196,176,0.2)';
+    msg='当前状态良好，可以按计划正常训练。建议运动后做10分钟拉伸，并保持膝盖温暖。';
+  } else if (risk < 60) {
+    level='中等风险'; color='#E8A830';
+    advBg='rgba(232,168,48,0.08)'; advColor='#7A5000'; advBorder='rgba(232,168,48,0.25)';
+    msg='膝盖有一定疲劳积累。建议降低今日训练强度20%，重点热身拉伸，避免高冲击跳跃。' + (cold>=2?' 中医建议：注意膝盖保暖，可用艾灸或热敷促进气血循环。':'');
+  } else {
+    level='高风险'; color='#D9534F';
+    advBg='rgba(217,83,79,0.08)'; advColor='#8B1A18'; advBorder='rgba(217,83,79,0.2)';
+    msg='膝盖负荷过高，建议今日休息或改为轻度恢复运动（游泳/瑜伽）。持续高强度可能导致慢性损伤。' + (cold>=2?' 中医提示：寒邪入络，务必做好膝盖保暖。':'');
+  }
+  bar.style.background = color;
+  document.getElementById('s-risk-val').textContent = level;
+  const adv = document.getElementById('s-advice');
+  adv.style.background = advBg; adv.style.color = advColor; adv.style.borderColor = advBorder;
+  adv.style.border = '1px solid ' + advBorder;
+  adv.textContent = msg;
+}
+
+updateSim();
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
